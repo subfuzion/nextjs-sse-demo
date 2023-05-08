@@ -1,0 +1,28 @@
+#!/bin/sh
+
+SCRIPT=$(basename ${0})
+PROJECT="${1:-${PROJECT}}"
+REGION="${2:-${REGION}}"
+SERVICE="${3:-${SERVICE}}"
+
+usage() {
+  echo "Either set environment variables or use positional arguments:"
+  echo "    ${SCRIPT} PROJECT REGION SERVICE"
+}
+
+err() {
+  echo "$1"
+  usage
+  exit 1
+}
+
+[ -z "${PROJECT}" ] && err "Error: missing PROJECT name argument"
+[ -z "${REGION}" ] && err "Error: missing REGION name argument"
+[ -z "${SERVICE}" ] && err "Error: missing SERVICE name argument"
+
+gcloud run deploy "${SERVICE}" \
+  --project="$PROJECT" \
+  --region="$REGION" \
+  --allow-unauthenticated \
+  --max-instances=1 \
+  --source=.
