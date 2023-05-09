@@ -3,22 +3,24 @@
  */
 const BUFFER_MAX = 1024 * 1024; // 1 MB
 
+// eslint-disable-next-line import/prefer-default-export
 export class Database {
-  static _data = [];
+  static data = [];
 
+  // eslint-disable-next-line class-methods-use-this
   appendData(n) {
-    let d = Database._data;
-    if (d.length >= BUFFER_MAX) {
+    if (Database.data.length >= BUFFER_MAX) {
       // console.log(`Database buffer overflow: ${d.length} (dropping oldest 1K of data)`);
       const discard = 1024;
-      Database._data = d = d.slice(discard);
+      Database.data = Database.data.slice(discard);
     }
-    Database._data.push(n);
+    Database.data.push(n);
     // console.log(`write buffer.length: ${d.length}`);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   getData() {
-    const d = Database._data;
+    const d = Database.data;
     if (!d.length) {
       // console.log(`Database buffer underflow (return value: -1)`);
       return -1;
