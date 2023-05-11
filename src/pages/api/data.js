@@ -11,7 +11,7 @@ const clients = new Map();
 let intervalId;
 
 export default function handler(req, res) {
-  if (req.method == "POST") {
+  if (req.method === "POST") {
     const value = req.body.value;
     // console.log(`received: ${value}`);
     db.appendData(value);
@@ -24,7 +24,7 @@ export default function handler(req, res) {
     return res.status(200).end();
   }
 
-  if (req.method == "GET") {
+  if (req.method === "GET") {
     res.writeHead(200, {
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
